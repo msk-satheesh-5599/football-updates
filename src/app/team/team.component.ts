@@ -15,7 +15,12 @@ export class TeamComponent implements OnDestroy {
   private subscription$ = new Subject<void>();
   constructor(route: ActivatedRoute, private teamService: TeamsService) {
     const teamId = route.snapshot.paramMap.get('id') ?? '0';
-    this.getFixtures(parseInt(teamId));
+    const teamResult = this.teamService.teamResults.get(parseInt(teamId));
+    if (teamResult) {
+      this.fixtures = teamResult;
+    } else {
+      this.getFixtures(parseInt(teamId));
+    }
   }
 
   private getFixtures(team: number): void {
@@ -25,6 +30,7 @@ export class TeamComponent implements OnDestroy {
       .subscribe({
         next: (resp: IResponse<IFixtures>) => {
           this.fixtures = resp.response;
+          this.teamService.teamResults.set(team, this.fixtures);
         },
       });
   }
