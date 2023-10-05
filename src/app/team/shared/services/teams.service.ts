@@ -10,6 +10,7 @@ import { IFixtures } from 'src/app/team/shared/modals/fixture.interface';
   providedIn: 'root',
 })
 export class TeamsService {
+  public teamResults = new Map();
   constructor(
     private http: HttpClient,
     private standingService: StandingsService
