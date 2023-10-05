@@ -1,0 +1,39 @@
+<div class="w-full h-full flex flex-col items-center justify-center screen">
+  <div class="w-3/5 h-3/4 bg-white/95 rounded-2xl px-20">
+    <table aria-describedby="Fixtures Table" class="table-auto fixture-table">
+      <tbody>
+        <tr class="my-5" *ngFor="let fixture of fixtures">
+          <td>
+            <img
+              [src]="fixture.teams.home.logo"
+              width="30px"
+              height="30px"
+              alt="{{ fixture.teams.home.name }}Logo"
+            />
+          </td>
+          <td>{{ fixture.teams.home.name }}</td>
+          <td>{{ fixture.goals.home }}</td>
+          <td>-</td>
+          <td>{{ fixture.goals.away }}</td>
+          <td>{{ fixture.teams.away.name }}</td>
+          <td>
+            <img
+              [src]="fixture.teams.away.logo"
+              width="30px"
+              height="30px"
+              alt="{{ fixture.teams.away.name }}Logo"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="w-3/5 mt-5">
+    <button
+      class="w-60 h-10 bg-blue-600 self-start rounded-lg text-white font-medium tracking-widest"
+      routerLink="/standings"
+    >
+      Back
+    </button>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="w-full h-full flex flex-col items-center screen py-5">
+  <p class="font-semibold tracking-widest">FOOTBALL UPDATES</p>
+
+  <div
+    class="w-1/2 flex justify-around items-center p-5 bg-yellow-100 rounded-2xl"
+  >
+    <button
+      *ngFor="let country of countries"
+      id="{{ country.name }}Select"
+      class="bg-none outline-none"
+      (click)="getLeaugueId(country)"
+    >
+      <a
+        [ngClass]="{ 'text-blue-600 underline': selectedCountry === country }"
+        class="drop-shadow-xl hover:text-blue-600 hover:underline font-medium tracking-wider"
+        >{{ country.name }}</a
+      >
+    </button>
+  </div>
+
+  <div
+    class="w-1/2 mt-5 flex justify-around items-center"
+    *ngIf="showStandings"
+  >
+    <div class="standings-container w-full h-[calc(100vh-200px)] overflow-auto">
+      <table
+        aria-describedby="Standings Table"
+        class="table-auto standings-table"
+      >
+        <thead>
+          <th></th>
+          <th></th>
+          <th>Name</th>
+          <th>Games</th>
+          <th>W</th>
+          <th>L</th>
+          <th>D</th>
+          <th>Goal Difference</th>
+          <th>Points</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stand of standings; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <div class="w-100 flex justify-center">
+                <img
+                  [src]="stand.team.logo"
+                  width="30px"
+                  height="30px"
+                  alt="{{ stand.team.name }}Logo"
+                />
+              </div>
+            </td>
+            <td>
+              <a
+                class="cursor-pointer hover:text-blue-600 hover:underline"
+                [routerLink]="['/team', stand.team.id]"
+                >{{ stand.team.name }}</a
+              >
+            </td>
+            <td>
+              {{ stand.all.played }}
+            </td>
+            <td>
+              {{ stand.all.win }}
+            </td>
+            <td>
+              {{ stand.all.lose }}
+            </td>
+            <td>
+              {{ stand.all.draw }}
+            </td>
+            <td>
+              {{ stand.goalsDiff }}
+            </td>
+            <td>
+              {{ stand.points }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
