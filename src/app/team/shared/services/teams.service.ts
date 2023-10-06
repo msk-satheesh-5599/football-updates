@@ -17,7 +17,9 @@ export class TeamsService {
   ) {}
 
   public getFixtures(team: number): Observable<IResponse<IFixtures>> {
-    const selectedLeauge = this.standingService?.selectedLeauge;
+    const selectedLeauge = this.standingService?.selectedLeauge.get(
+      this.standingService.selectedCountry?.name
+    );
     const params = new HttpParams()
       .append('team', team)
       .append('league', selectedLeauge ?? '')

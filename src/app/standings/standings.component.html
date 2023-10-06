@@ -11,7 +11,9 @@
       (click)="getLeaugueId(country)"
     >
       <a
-        [ngClass]="{ 'text-blue-600 underline': selectedCountry === country }"
+        [ngClass]="{
+          'text-blue-600 underline': standingService.selectedCountry === country
+        }"
         class="drop-shadow-xl hover:text-blue-600 hover:underline font-medium tracking-wider"
         >{{ country.name }}</a
       >

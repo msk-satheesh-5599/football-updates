@@ -13,7 +13,8 @@ import { IStandings } from 'src/app/standings/shared/modals/standings.interface'
 export class StandingsService {
   public standings = new Map();
   public selectedCountry: Country | null = null;
-  public selectedLeauge: number | null = null;
+  public selectedCountryMapper = new Map();
+  public selectedLeauge = new Map();
   constructor(private http: HttpClient) {}
 
   public getLeagueId(country: Country): Observable<IResponse<ILeaugue>> {

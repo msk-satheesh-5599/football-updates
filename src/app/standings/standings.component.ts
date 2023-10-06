@@ -19,30 +19,40 @@ export class StandingsComponent implements OnDestroy {
   public countries = countries;
   public standings: ISubStandings[] = [];
   public showStandings = false;
-  public selectedCountry: Country | null = null;
   private subscription$ = new Subject<void>();
-  constructor(private standingService: StandingsService) {
-    const selectedLeauge = this.standingService.selectedLeauge;
-    if (selectedLeauge) {
-      this.selectedCountry = this.standingService.selectedCountry;
-      this.standings = this.standingService.standings.get(+selectedLeauge);
-      this.showStandings = true;
-    }
+  constructor(public standingService: StandingsService) {
+    this.assignData();
   }
 
   public getLeaugueId(country: Country): void {
-    this.selectedCountry = country;
     this.standingService.selectedCountry = country;
+    if (!this.assignData()) return;
+    this.standingService.selectedCountryMapper.set(country.name, country);
     this.standingService
       .getLeagueId(country)
       .pipe(takeUntil(this.subscription$))
       .subscribe({
         next: (league: IResponse<ILeaugue>) => {
           const leagueId = league.response[0].league.id;
-          this.standingService.selectedLeauge = leagueId;
+          this.standingService.selectedLeauge.set(country.name, leagueId);
           this.getStandings(leagueId);
         },
       });
+  }
+
+  private assignData(): boolean {
+    const selectedCountry = this.standingService.selectedCountry;
+    const selectedLeauge = this.standingService.selectedLeauge.get(
+      selectedCountry?.name
+    );
+    const available = this.standingService.selectedCountryMapper.has(
+      selectedCountry?.name
+    );
+    if (selectedLeauge && available) {
+      this.standings = this.standingService.standings.get(+selectedLeauge);
+      this.showStandings = true;
+      return false;
+    } else return true;
   }
 
   private getStandings(leaugeId: number): void {
